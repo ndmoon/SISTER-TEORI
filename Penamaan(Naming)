@@ -1,0 +1,96 @@
+Nama : Nadia Monika Putri
+NIM : 2111082034
+Kelas : TRPL 3B
+
+PENAMAAN
+
+Digunakan untuk secara unik mengenali entitas di dalam sistem terdistribusi 
+- Entitas dapat berupa proses, obyek jauh (remote), newsgroups, dll.
+
+Nama, Alamat & Pengenal
+- Suatu entitas dapat dikenali dengan tiga jenis referensi: 
+a)	Nama
+ Nama adalah sehimpunan bit atau karakter yang mereferensi/mengacu suatu entitas Nama dapat bersifat human-friendly (atau tidak) 
+b)	Alamat (Address) 
+Setiap entitas terletak pada suatu access point (titik akses), dan access point itu mempunyai alamat (address) Address dapat bersifat location-dependent (atau tidak) 
+Contoh: IP Address + Port
+c)	Pengenal (Identifier) 
+Identifier adalah nama yang secara unik mengenali entitas 
+Suatu identifier sejati adalah nama dengan properti-properti berikut: 
+Suatu identifier mengacu ke paling banyak satu entitas 
+Setiap entitas dirujuk oleh paling banyak satu identifier 
+Suatu identifier selalu merujuk ke entitas yang sama (tidak pernah digunakan-ulang)
+
+
+Sistem Penamaan 
+- Sistem Penamaan sederhananya merupakan suatu middleware yang membantu urusan resolusi nama 
+- Sistem penamaan dapat dikategorikan ke dalam tiga kelas, berdasarkan pada cara pemberian namanya:
+1. Penamaan Flat
+Dalam penamaan flat, identifiers merupakan bit-bit string yang acak (dikenal sebagai nama flat atau tak-terstruktur)
+Empat jenis mekanisme resolusi nama untuk nama flat: 
+- Broadcasting
+Pendekatan: Broadcastkan nama/alamat ke seluruh jaringan; Entitas yang berasosiasi dengan nama tersebut memberikan respon berupa pengenal mutakhirnya 
+ Contoh: Address Resolution Protocol (ARP)
+- Forwarding pointers 
+Forwarding pointers memungkinkan penemuan entitas mobile
+- Entitas mobile bergerak dari satu access point ke point lainnya 
+Saat suatu entitas bergerak dari lokasi A ke lokasi B, ia meninggalkan di belakang
+ (di A) suatu referensi ke lokasi barunya di B 
+ 
+
+Mekanisme resolusi nama:
+-	Mengikuti chain of pointers untuk menjangkau entitas tersebut 
+-	Mengupdate referensi entitas ketika lokasi terkini ditemukan.
+Contoh :
+- Rantai Stub-Scion Pair (SSP) menerapkan remote invocations bagi entitas mobile menggunakan forwarding pointers
+- Pendekatan berbasis Home 
+Setiap entitas diberikan suatu node home 
+-	Node home bersifat static (mempunyai access point dan address tetap)
+-	Ia memelihara track menuju alamat terkini dari entitas
+Interaksi entitas-home:
+-	Alamat rumah dari entitas didaftarkan pada suatu naming service 
+-	Entitas itu mengupdate home berkenaan dengan alamat terkininya (foreign address) kapanpun ia bergerak 
+Resolusi nama: 
+-	Client menghubungi home untuk mendapatkan foreign address-nya 
+-	Client kemudian menghubungi entitas pada foreign location tersebut
+- Distributed Hash Tables (DHTs)
+DHT merupakan suatu sistem terdistribusi yang menyediakan layanan lookup serupa dengan hash table
+-	Pasangan (key, value) disimpan dalam node-node yang berpartisipasi dalam DHT
+-	Tanggungjawab untuk memelihara pemetaan dari key ke value didistribusikan antar node-node tersebut 
+-	Node apapun yang berpartisipasi dapat melayani pengambilan nilai untuk suatu key yang diberikan 
+Akan didiskusikan DHT representatif dikenal sebagai Chord
+2. Penamaan Terstruktur
+Nama terstruktur tersusun dari nama-nama human-readable sederhana : Nama-nama diatur dalam suatu struktur tertentu 
+Contoh: File-systems menggunakan nama terstruktur untuk mengidentifikasi file-file : /home/userid/work/dist-systems/naming.txt 
+Websites dapat diakses melalui nama terstruktur : Husni.trunojoyo.ac.id
+
+Ruang Nama
+- Nama terstruktur diorganisir dalam ruang nama (name spaces) 
+- Namespace adalah suatu directed graph yang terdiri dari: 
+- Node daun (leaf) 
+-	Setiap node daun merepresentasikan suatu entitas 
+-	Node daun biasanya menyimpan address dari (atau path dari suatu entitas (misalnya dalam DNS), atau state menuju) suatu entitas (misalnya di dalam file systems) 
+
+- Node direktori
+ -	Node direktori merujuk ke node leaf atau direktori lain
+ -	Setiap outgoing edge diwakili oleh (edge label, node identifier)
+Resolusi Name
+- Proses pencarian nama disebut resolusi (name resolution) 
+- Mekanisme pengakhiran (closure): 
+-	Resolusi nama tidak dapat diselesaikan tanpa suatu initial directory node 
+-	Mekanisme closure memilih konteks implisit dari mana memulai resolusi nama. Contoh:  husni.trunojoyo.ac.id: mulai pada DNS Server
+
+Pengaitan Nama 
+- Ruang nama dapat secara efektif digunakan untuk mengaitkan (menghubungkan, membuat link) dua entitas berbeda
+- Dua jenis link dapat hadir antara node-node: 
+1. Hard Links : Ada suatu directed link dari hard link (nama link) ke actual node (node sebenarnya) 
+2. Symbolic Links : Symbolic link menyimpan nama dari node asli sebagai data
+3. Penamaan Berbasis Atribut
+
+Dalam banyak kasus, adalah jauh lebih tepat menamai dan mencari entitas berrdasarkan arti dari atribut-atributnya 
+-	Mirip dengan layanan direktori tradisional (misal: yellow pages) 
+
+Namun, operasi pencarian (look-up) dapat menjadi sangat mahal 
+-	Harus mencocokkan nilai-nilai atribut yang direquest terhadap nilai-nilai atribut aktual, yang mungkin memerlukan pemeriksaan semua entitas 
+Solusi: Implementasikan layanan direktori dasar sebagai sebuah database, dan kombinasikan itu dengan sistem penamaan terstruktur tradisional 
+Akan dibahas Light-weight Directory Access Protocol (LDAP); suatu sistem contoh yang menggunakan penamaan berbasis atribut.
